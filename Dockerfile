@@ -22,4 +22,11 @@ RUN wget -q 'https://search.maven.org/remotecontent?filepath=org/mapsforge/mapsf
     && mkdir -p ~/.openstreetmap/osmosis/plugins \
     && mv mapsforge*jar  ~/.openstreetmap/osmosis/plugins
 
-RUN bash -c "pip install wahoomc"
+RUN DEBIAN_FRONTEND=noninteractive apt-get -qq -y update \
+    && apt-get install -qq -y --no-install-recommends \
+    git \
+    && apt-get clean \
+    && apt-get autoremove -y \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN bash -c "pip install git+https://github.com/ThaBaur/wahooMapsCreator.git"
